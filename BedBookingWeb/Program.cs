@@ -1,7 +1,16 @@
+using BedBookingWeb.Data.BedBookingDbContext;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var stringConnection = builder.Configuration.GetConnectionString("Default");
+builder.Services.AddDbContext<BookingDbContext>
+    (
+        options => options.UseMySql(stringConnection, ServerVersion.AutoDetect(stringConnection))
+    );
 
 var app = builder.Build();
 
